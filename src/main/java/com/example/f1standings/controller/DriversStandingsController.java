@@ -1,6 +1,7 @@
 package com.example.f1standings.controller;
 
-import com.example.f1standings.model.DriverStanding;
+import com.example.f1standings.model.DriverChampionshipStanding;
+import com.example.f1standings.model.DriverGrandPrixStanding;
 import com.example.f1standings.service.DriversStandingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,15 @@ public class DriversStandingsController {
     private DriversStandingsService driversStandingsService;
 
     @GetMapping
-    public ResponseEntity<List<DriverStanding>> getStandingsByYear(@PathVariable("year") String year) throws IOException {
-        List<DriverStanding> driverStandings = driversStandingsService.getStandingsByYear(year);
-        return ResponseEntity.ok(driverStandings);
+    public ResponseEntity<List<DriverChampionshipStanding>> getStandingsByYear(@PathVariable("year") String year) throws IOException {
+        List<DriverChampionshipStanding> driverChampionshipStandings = driversStandingsService.getStandingsByYear(year);
+        return ResponseEntity.ok(driverChampionshipStandings);
+    }
+
+    @GetMapping("/{driver}")
+    public ResponseEntity<List<DriverGrandPrixStanding>> getStandingsByDriver(@PathVariable("year") String year, @PathVariable("driver") String driver) throws IOException {
+        List<DriverGrandPrixStanding> driverGrandPrixStandings = driversStandingsService.getStandingsByDriver(year, driver);
+        return ResponseEntity.ok(driverGrandPrixStandings);
     }
 
 }

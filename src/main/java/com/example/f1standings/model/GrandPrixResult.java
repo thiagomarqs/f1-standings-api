@@ -11,7 +11,7 @@ public class GrandPrixResult {
     public String car;
     public Integer laps;
     public String time;
-    public Integer points;
+    public Double points;
 
     public GrandPrixResult() {}
 
@@ -26,7 +26,7 @@ public class GrandPrixResult {
         this.car = tds.get(4).text();
         this.laps = Integer.parseInt(tds.get(5).text());
         this.time = tds.get(6).text();
-        this.points = Integer.parseInt(tds.get(7).text());
+        this.points = Double.parseDouble(tds.get(7).text());
     }
 
     public String toString() {

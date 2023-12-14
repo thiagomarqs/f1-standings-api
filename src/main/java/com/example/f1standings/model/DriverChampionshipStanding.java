@@ -3,7 +3,7 @@ package com.example.f1standings.model;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class DriverStanding {
+public class DriverChampionshipStanding {
 
     public Integer position;
     public String driver;
@@ -11,9 +11,9 @@ public class DriverStanding {
     public String team;
     public Double points;
 
-    public DriverStanding() {}
+    public DriverChampionshipStanding() {}
 
-    public DriverStanding(Element element) {
+    public DriverChampionshipStanding(Element element) {
         Elements tds = element.getElementsByTag("td");
 
         this.position = Integer.parseInt(tds.get(1).text());

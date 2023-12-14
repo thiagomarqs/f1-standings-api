@@ -1,11 +1,11 @@
 package com.example.f1standings.service;
 
+import com.example.f1standings.model.GrandPrixResult;
 import com.example.f1standings.model.RaceResult;
+import com.example.f1standings.service.scraper.RaceResultsScraper;
 import com.example.f1standings.shared.Scraper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.jsoup.nodes.Element;
-import com.example.f1standings.model.GrandPrixResult;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,6 +17,9 @@ public class RaceResultsService {
 
     @Autowired
     private Scraper<RaceResult> scraper;
+
+    @Autowired
+    private RaceResultsScraper raceResultsScraper;
 
     /**
      * Returns the race results of a specific year.
@@ -31,8 +34,7 @@ public class RaceResultsService {
      */
     public List<GrandPrixResult> getByGrandPrix(Integer year, String gp) throws IOException {
         String url = String.format(RACE_RESULTS_URL_PARAMETERIZED, year);
-        List<Element> rawGrandPrixResults = scraper.getGrandPrixResults(url, gp);
-        return rawGrandPrixResults.stream().map(GrandPrixResult::new).toList();
+        return raceResultsScraper.getGrandPrixResults(url, gp);
     }
 
 }
