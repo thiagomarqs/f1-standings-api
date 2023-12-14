@@ -19,7 +19,10 @@ public class RaceResult {
 
         this.grandPrix = tds.get(1).text();
         this.date = tds.get(2).text();
-        this.winner = tds.get(3).text();
+
+        String winner = tds.get(3).text();
+        this.winner = winner.substring(0, winner.length() - 4);
+
         this.car = tds.get(4).text();
         this.laps = Integer.parseInt(tds.get(5).text());
         this.time = tds.get(6).text();
