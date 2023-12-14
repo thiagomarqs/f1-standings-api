@@ -17,14 +17,6 @@ public class RaceResultsService {
     private Scraper<RaceResult> scraper;
 
     /**
-     * Returns the race results of the current season.
-     */
-    public List<RaceResult> getStandings() throws IOException {
-        String url = String.format(RACE_RESULTS_URL_PARAMETERIZED, "2023");
-        return scraper.getResults(url, RaceResult.class);
-    }
-
-    /**
      * Returns the racing results of a specific year.
      */
     public List<RaceResult> getStandingsByYear(String year) throws IOException {

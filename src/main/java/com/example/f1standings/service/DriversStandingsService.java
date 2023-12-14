@@ -17,14 +17,6 @@ public class DriversStandingsService {
     private Scraper<DriverStanding> scraper;
 
     /**
-     * Returns the standings of the current season.
-     */
-    public List<DriverStanding> getStandings() throws IOException {
-        String url = String.format(STANDINGS_URL_PARAMETERIZED, "2023");
-        return scraper.getResults(url, DriverStanding.class);
-    }
-
-    /**
      * Returns the standings of a specific year.
      */
     public List<DriverStanding> getStandingsByYear(String year) throws IOException {

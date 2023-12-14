@@ -17,14 +17,6 @@ public class TeamsStandingsService {
     private Scraper<TeamStanding> scraper;
 
     /**
-     * Returns the standings of the current season.
-     */
-    public List<TeamStanding> getStandings() throws IOException {
-        String url = String.format(STANDINGS_URL_PARAMETERIZED, "2023");
-        return scraper.getResults(url, TeamStanding.class);
-    }
-
-    /**
      * Returns the standings of a specific year.
      */
     public List<TeamStanding> getStandingsByYear(String year) throws IOException {

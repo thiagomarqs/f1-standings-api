@@ -13,19 +13,13 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/standings/drivers")
+@RequestMapping("/api/{year}/standings/drivers")
 public class DriversStandingsController {
 
     @Autowired
     private DriversStandingsService driversStandingsService;
 
     @GetMapping
-    public ResponseEntity<List<DriverStanding>> getStandings() throws IOException {
-        List<DriverStanding> driverStandings = driversStandingsService.getStandings();
-        return ResponseEntity.ok(driverStandings);
-    }
-
-    @GetMapping("/year/{year}")
     public ResponseEntity<List<DriverStanding>> getStandingsByYear(@PathVariable("year") String year) throws IOException {
         List<DriverStanding> driverStandings = driversStandingsService.getStandingsByYear(year);
         return ResponseEntity.ok(driverStandings);

@@ -13,19 +13,13 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/results/races")
+@RequestMapping("/api/{year}/results/races")
 public class RaceResultsController {
 
     @Autowired
     private RaceResultsService raceResultsService;
 
     @GetMapping
-    public ResponseEntity<List<RaceResult>> getStandings() throws IOException {
-        List<RaceResult> raceResults = raceResultsService.getStandings();
-        return ResponseEntity.ok(raceResults);
-    }
-
-    @GetMapping("/year/{year}")
     public ResponseEntity<List<RaceResult>> getStandingsByYear(@PathVariable("year") String year) throws IOException {
         List<RaceResult> raceResults = raceResultsService.getStandingsByYear(year);
         return ResponseEntity.ok(raceResults);
