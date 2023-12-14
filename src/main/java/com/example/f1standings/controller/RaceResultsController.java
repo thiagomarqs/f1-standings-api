@@ -1,5 +1,6 @@
 package com.example.f1standings.controller;
 
+import com.example.f1standings.model.GrandPrixResult;
 import com.example.f1standings.model.RaceResult;
 import com.example.f1standings.service.RaceResultsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,15 @@ public class RaceResultsController {
     private RaceResultsService raceResultsService;
 
     @GetMapping
-    public ResponseEntity<List<RaceResult>> getStandingsByYear(@PathVariable("year") String year) throws IOException {
-        List<RaceResult> raceResults = raceResultsService.getStandingsByYear(year);
+    public ResponseEntity<List<RaceResult>> getByYear(@PathVariable("year") String year) throws IOException {
+        List<RaceResult> raceResults = raceResultsService.getByYear(year);
         return ResponseEntity.ok(raceResults);
+    }
+
+    @GetMapping("/{gp}")
+    public ResponseEntity<List<GrandPrixResult>> getByGrandPrix(@PathVariable("year") String year, @PathVariable("gp") String gp) throws IOException {
+        List<GrandPrixResult> results = raceResultsService.getByGrandPrix(Integer.parseInt(year), gp);
+        return ResponseEntity.ok(results);
     }
 
 }

@@ -4,6 +4,8 @@ import com.example.f1standings.model.RaceResult;
 import com.example.f1standings.shared.Scraper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.jsoup.nodes.Element;
+import com.example.f1standings.model.GrandPrixResult;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,11 +19,20 @@ public class RaceResultsService {
     private Scraper<RaceResult> scraper;
 
     /**
-     * Returns the racing results of a specific year.
+     * Returns the race results of a specific year.
      */
-    public List<RaceResult> getStandingsByYear(String year) throws IOException {
+    public List<RaceResult> getByYear(String year) throws IOException {
         String url = String.format(RACE_RESULTS_URL_PARAMETERIZED, year);
         return scraper.getResults(url, RaceResult.class);
+    }
+
+    /**
+     * Returns the race results of a specific grand prix.
+     */
+    public List<GrandPrixResult> getByGrandPrix(Integer year, String gp) throws IOException {
+        String url = String.format(RACE_RESULTS_URL_PARAMETERIZED, year);
+        List<Element> rawGrandPrixResults = scraper.getGrandPrixResults(url, gp);
+        return rawGrandPrixResults.stream().map(GrandPrixResult::new).toList();
     }
 
 }
