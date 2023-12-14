@@ -1,9 +1,7 @@
 package com.example.f1standings.service;
 
 import com.example.f1standings.model.TeamStanding;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
+import com.example.f1standings.shared.Scraper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +14,14 @@ public class TeamsStandingsService {
     private final String STANDINGS_URL_PARAMETERIZED = "https://www.formula1.com/en/results.html/%s/team.html";
 
     @Autowired
-    private StandingsService<TeamStanding> standingsService;
+    private Scraper<TeamStanding> scraper;
 
     /**
      * Returns the standings of the current season.
      */
     public List<TeamStanding> getStandings() throws IOException {
         String url = String.format(STANDINGS_URL_PARAMETERIZED, "2023");
-        return standingsService.getProcessedStandings(url, TeamStanding.class);
+        return scraper.getResults(url, TeamStanding.class);
     }
 
     /**
@@ -31,7 +29,7 @@ public class TeamsStandingsService {
      */
     public List<TeamStanding> getStandingsByYear(String year) throws IOException {
         String url = String.format(STANDINGS_URL_PARAMETERIZED, year);
-        return standingsService.getProcessedStandings(url, TeamStanding.class);
+        return scraper.getResults(url, TeamStanding.class);
     }
 
 }
