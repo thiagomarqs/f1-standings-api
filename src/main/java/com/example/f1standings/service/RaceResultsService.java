@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 
+import static com.example.f1standings.shared.Urls.RACE_RESULTS_URL_PARAMETERIZED;
+
 @Service
 public class RaceResultsService {
-
-    private final String RACE_RESULTS_URL_PARAMETERIZED = "https://www.formula1.com/en/results.html/%s/races.html";
 
     @Autowired
     private Scraper<RaceResult> scraper;
@@ -32,9 +32,8 @@ public class RaceResultsService {
     /**
      * Returns the race results of a specific grand prix.
      */
-    public List<GrandPrixResult> getByGrandPrix(Integer year, String gp) throws IOException {
-        String url = String.format(RACE_RESULTS_URL_PARAMETERIZED, year);
-        return raceResultsScraper.getGrandPrixResults(url, gp);
+    public List<GrandPrixResult> getByGrandPrix(String year, String gp) throws IOException {
+        return raceResultsScraper.getGrandPrixResults(year, gp);
     }
 
 }

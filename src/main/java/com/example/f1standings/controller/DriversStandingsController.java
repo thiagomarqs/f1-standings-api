@@ -4,6 +4,8 @@ import com.example.f1standings.model.DriverChampionshipStanding;
 import com.example.f1standings.model.DriverGrandPrixStanding;
 import com.example.f1standings.service.DriversStandingsService;
 import com.example.f1standings.shared.Controller;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,12 +27,29 @@ public class DriversStandingsController {
     private Controller controller;
 
     @GetMapping
+    @Operation(
+        summary = "Driver standings",
+        description = "The driver standings by year.",
+        tags = { "Driver Standings" },
+        parameters = {
+            @Parameter(name = "year", description = "The year to search.")
+        }
+    )
     public ResponseEntity<List<DriverChampionshipStanding>> getStandingsByYear(@PathVariable("year") String year) throws IOException {
         List<DriverChampionshipStanding> driverChampionshipStandings = driversStandingsService.getStandingsByYear(year);
         return controller.resolveListResponse(driverChampionshipStandings);
     }
 
     @GetMapping("/{driver}")
+    @Operation(
+        summary = "Standings by driver",
+        description = "The standings of a specific driver in a year.",
+        tags = { "Driver Standings" },
+        parameters = {
+            @Parameter(name = "year", description = "The year to search."),
+            @Parameter(name = "driver", description = "The driver's name, in kebab-case, like 'max-verstappen' or 'guanyu-zhou'.")
+        }
+    )
     public ResponseEntity<List<DriverGrandPrixStanding>> getStandingsByDriver(@PathVariable("year") String year, @PathVariable("driver") String driver) throws IOException {
         List<DriverGrandPrixStanding> driverGrandPrixStandings = driversStandingsService.getStandingsByDriver(year, driver);
         return controller.resolveListResponse(driverGrandPrixStandings);

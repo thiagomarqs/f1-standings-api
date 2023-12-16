@@ -4,6 +4,8 @@ import com.example.f1standings.model.GrandPrixResult;
 import com.example.f1standings.model.RaceResult;
 import com.example.f1standings.service.RaceResultsService;
 import com.example.f1standings.shared.Controller;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,14 +27,31 @@ public class RaceResultsController {
     private Controller controller;
 
     @GetMapping
+    @Operation(
+        summary = "Race results of a year.",
+        description = "The final results of each race of a year.",
+        tags = { "Race" },
+        parameters = {
+            @Parameter(name = "year", description = "The year to search.")
+        }
+    )
     public ResponseEntity<List<RaceResult>> getByYear(@PathVariable("year") String year) throws IOException {
         List<RaceResult> raceResults = raceResultsService.getByYear(year);
         return controller.resolveListResponse(raceResults);
     }
 
     @GetMapping("/{gp}")
+    @Operation(
+        summary = "Results of a Grand Prix.",
+        description = "The final results of a specific Grand Prix.",
+        tags = { "Race", "Grand Prix"},
+        parameters = {
+            @Parameter(name = "year", description = "The year to search."),
+            @Parameter(name = "gp", description = "The Grand Prix to search. Must be written in kebab-case, like 'spain' or 'saudi-arabia'.")
+        }
+    )
     public ResponseEntity<List<GrandPrixResult>> getByGrandPrix(@PathVariable("year") String year, @PathVariable("gp") String gp) throws IOException {
-        List<GrandPrixResult> results = raceResultsService.getByGrandPrix(Integer.parseInt(year), gp);
+        List<GrandPrixResult> results = raceResultsService.getByGrandPrix(year, gp);
         return controller.resolveListResponse(results);
     }
 

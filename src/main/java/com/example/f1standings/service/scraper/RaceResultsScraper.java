@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.List;
 
+import static com.example.f1standings.shared.Urls.RACE_RESULTS_URL_PARAMETERIZED;
+
 @Component
 public class RaceResultsScraper {
 
@@ -20,12 +22,12 @@ public class RaceResultsScraper {
 
     /**
      * Gets the results of a specific GP.
-     * This method programatically navigates the website to
-     * get to the results page of the desired GP and then
-     * extract the data.
-     * The starting point of this navigation is the provided url.
+     * This method programatically navigates the website
+     * from the starting point URL to get to the results
+     * page of the desired GP and then extract the data.
      */
-    public List<GrandPrixResult> getGrandPrixResults(String startingPointUrl, String gp) throws IOException {
+    public List<GrandPrixResult> getGrandPrixResults(String year, String gp) throws IOException {
+        String startingPointUrl = String.format(RACE_RESULTS_URL_PARAMETERIZED, year);
         Document document = Jsoup.connect(startingPointUrl).get();
         boolean nothingFound = document.getElementsByAttributeValueContaining("data-value", gp).isEmpty();
 

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.List;
 
+import static com.example.f1standings.shared.Urls.DRIVER_STANDINGS_URL_PARAMETERIZED;
+
 @Component
 public class DriverStandingsScraper {
 
@@ -21,7 +23,8 @@ public class DriverStandingsScraper {
     /**
      * Standings of a specific driver in each Grand Prix.
      */
-    public List<DriverGrandPrixStanding> getStandingsByDriver(String startingPointUrl, String driver) throws IOException {
+    public List<DriverGrandPrixStanding> getStandingsByDriver(String year, String driver) throws IOException {
+        String startingPointUrl = String.format(DRIVER_STANDINGS_URL_PARAMETERIZED, year);
         Document document = Jsoup.connect(startingPointUrl).get();
         boolean nothingFound = document.getElementsByAttributeValueContaining("data-value", driver).isEmpty();
 
