@@ -10,7 +10,7 @@ public class Controller {
 
     public <T> ResponseEntity<List<T>> resolveListResponse(List<T> result) {
         if(result.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(result);

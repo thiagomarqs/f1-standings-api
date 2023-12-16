@@ -6,6 +6,7 @@ import com.example.f1standings.service.RaceResultsService;
 import com.example.f1standings.shared.Controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +37,9 @@ public class RaceResultsController {
         }
     )
     public ResponseEntity<List<RaceResult>> getByYear(@PathVariable("year") String year) throws IOException {
+
+        if(!StringUtils.isNumeric(year)) return controller.resolveListResponse(List.of());
+
         List<RaceResult> raceResults = raceResultsService.getByYear(year);
         return controller.resolveListResponse(raceResults);
     }
@@ -51,6 +55,11 @@ public class RaceResultsController {
         }
     )
     public ResponseEntity<List<GrandPrixResult>> getByGrandPrix(@PathVariable("year") String year, @PathVariable("gp") String gp) throws IOException {
+
+        if(!StringUtils.isNumeric(year) || !StringUtils.isAlpha(gp)) {
+            return controller.resolveListResponse(List.of());
+        }
+
         List<GrandPrixResult> results = raceResultsService.getByGrandPrix(year, gp);
         return controller.resolveListResponse(results);
     }

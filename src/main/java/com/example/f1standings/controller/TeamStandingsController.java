@@ -5,6 +5,7 @@ import com.example.f1standings.service.TeamsStandingsService;
 import com.example.f1standings.shared.Controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +36,9 @@ public class TeamStandingsController {
         }
     )
     public ResponseEntity<List<TeamStanding>> getStandingsByYear(@PathVariable("year") String year) throws IOException {
+
+        if(!StringUtils.isNumeric(year)) return controller.resolveListResponse(List.of());
+
         List<TeamStanding> teamStandings = teamsStandingsService.getStandingsByYear(year);
         return controller.resolveListResponse(teamStandings);
     }

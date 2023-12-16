@@ -6,6 +6,7 @@ import com.example.f1standings.shared.Urls;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,8 +31,12 @@ public class DriverStandingsScraper {
 
         if(nothingFound) return List.of();
 
-        Element driverStandingsListItem = document.getElementsByAttributeValueContaining("data-value", driver).get(0);
-        String driverStandingsPath = driverStandingsListItem.attr("href");
+        Element driversList = document.getElementsByClass("resultsarchive-filter-wrap").get(2);
+        Elements driverStandingsListItem = driversList.getElementsByAttributeValueContaining("data-value", driver);
+
+        if(driverStandingsListItem.isEmpty()) return List.of();
+
+        String driverStandingsPath = driverStandingsListItem.get(0).attr("href");
         String driverStandingsFullUrl = Urls.FORMULA_ONE_SITE_BASE_URL + driverStandingsPath;
 
         return scraper.getResults(driverStandingsFullUrl, DriverGrandPrixStanding.class);

@@ -6,6 +6,7 @@ import com.example.f1standings.shared.Urls;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +34,11 @@ public class RaceResultsScraper {
 
         if(nothingFound) return List.of();
 
-        Element grandPrixListItem = document.getElementsByAttributeValueContaining("data-value", gp).get(0);
+        Element grandsPrixList = document.getElementsByClass("resultsarchive-filter-wrap").get(2);
+        Elements grandPrixListItem = grandsPrixList.getElementsByAttributeValueContaining("data-value", gp);
+
+        if(grandPrixListItem.isEmpty()) return List.of();
+
         String grandPrixResultsPath = grandPrixListItem.attr("href");
         String grandPrixResultsFullUrl = Urls.FORMULA_ONE_SITE_BASE_URL + grandPrixResultsPath;
 
