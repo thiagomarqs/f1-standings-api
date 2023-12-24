@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.List;
 
+import static com.example.f1standings.shared.StringUtils.containsOnlyLettersAndOrHyphens;
+
 @RestController
 @RequestMapping("/api/{year}/results/races")
 public class RaceResultsController {
@@ -56,7 +58,7 @@ public class RaceResultsController {
     )
     public ResponseEntity<List<GrandPrixResult>> getByGrandPrix(@PathVariable("year") String year, @PathVariable("gp") String gp) throws IOException {
 
-        if(!StringUtils.isNumeric(year) || !StringUtils.isAlpha(gp)) {
+        if(!StringUtils.isNumeric(year) || !containsOnlyLettersAndOrHyphens(gp)) {
             return controller.resolveListResponse(List.of());
         }
 

@@ -4,6 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -12,13 +13,16 @@ import java.util.List;
 @Component
 public class Scraper<T> {
 
+    @Autowired
+    private ElementMapper<T> mapper;
+
     /**
      * Generic method to get the results, because currently
      * the HTML structure of the results pages is basically the same.
      */
     public List<T> getResults(String url, Class<T> clazz) throws IOException {
         List<Element> rawStandings = this.getRawResultsTable(url);
-        return rawStandings.stream().map(e -> mapToClass(e, clazz)).toList();
+        return rawStandings.stream().map(e -> mapper.map(e, clazz)).toList();
     }
 
     /**
@@ -37,17 +41,6 @@ public class Scraper<T> {
         if(tableBody.isEmpty()) return List.of();
 
         return tableBody.get(0).getElementsByTag("tr").stream().toList();
-    }
-
-    /**
-     * Necessary to make mapping to a generic type possible.
-     */
-    private T mapToClass(Element element, Class<T> clazz) {
-        try {
-            return clazz.getConstructor(Element.class).newInstance(element);
-        } catch (Exception e) {
-            throw new RuntimeException("Error mapping element to class", e);
-        }
     }
 
 }
